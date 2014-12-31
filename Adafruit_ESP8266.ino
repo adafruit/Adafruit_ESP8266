@@ -3,12 +3,11 @@
 // programmed modules!
 
 #include <SoftwareSerial.h>
-#define SSID "ssid name"      //your wifi ssid here
-#define PASS "password"   //your wifi wep key here
+#define SSID "SSIDNAME"      //your wifi ssid here
+#define PASS "PASSWORD"   //your wifi key here
 
 //  www.adafruit.com/testwifi/index.html
-#define DST_IP "207.58.139.247" // IP for adafruit.com, below
-#define HOST "www.adafruit.com"
+#define HOST "www.adafruit.com" 
 #define WEBPAGE "/testwifi/index.html"
 #define PORT  "80"
 
@@ -25,7 +24,7 @@ Stream *esp = &softser;
 
 #define REPLYBUFFSIZ 255
 char replybuffer[REPLYBUFFSIZ];
-uint8_t getReply(char *send, uint16_t timeout, boolean echo = true);
+uint8_t getReply(char *send, uint16_t timeout = 500, boolean echo = true);
 uint8_t espreadline(uint16_t timeout = 500, boolean multiline = false);
 boolean sendCheckReply(char *send, char *reply, uint16_t timeout = 500);
 
@@ -55,9 +54,9 @@ void setup()
   // OR use hardware serial
   //Serial1.begin(9600);
   
-  Serial.println("ESP8266 Demo");
+  Serial.println(F("Adafruit's ESP8266 Demo"));
  
- 
+  Serial.println(F("Hard reset..."));
  // hard reset if you can
   pinMode(ESP_RST, INPUT);
   digitalWrite(ESP_RST, LOW);
@@ -68,11 +67,11 @@ void setup()
   
   //test if the module is ready
   if(! espReset()) {
-    Serial.println("Module didn't respond.");
+    Serial.println("Module didn't respond :(");
     debugLoop();
   }
 
-  Serial.println("ESP Module is ready");
+  Serial.println(F("ESP Module is ready! :)"));
 
   //connect to the wifi
   byte err = setupWiFi();
@@ -85,8 +84,8 @@ void setup()
   }
   
   // success, print IP
-  Serial.print("ESP setup success, my IP addr:");
   uint32_t ip = getIP();
+  Serial.print("ESP setup success, my IP addr:");
   if (ip) {
     Serial.println(ip, HEX);
   } else {
@@ -98,16 +97,21 @@ void setup()
   //set the single connection mode
 }
 
-boolean ESP_GETpage(char *host, char *ip, uint16_t port, char *page) {
+boolean ESP_GETpage(char *host, uint16_t port, char *page) {
   String cmd = "AT+CIPSTART=\"TCP\",\"";
-  cmd += ip;
+  cmd += host;
   cmd += "\",";
   cmd += port;
   cmd.toCharArray(replybuffer, REPLYBUFFSIZ);
-  
-  if (! sendCheckReply(replybuffer, "OK")) {
-    sendCheckReply("AT+CIPCLOSE", "OK");
-    return false;
+
+  getReply(replybuffer);
+
+  if (strcmp(replybuffer, "OK") != 0) {
+     // this is OK! could be a version that says "Linked"
+     if (strcmp(replybuffer, "Linked") != 0) {
+       sendCheckReply("AT+CIPCLOSE", "OK");
+       return false;
+     }
   }
   
   String request = "GET ";
@@ -130,9 +134,20 @@ boolean ESP_GETpage(char *host, char *ip, uint16_t port, char *page) {
 
   esp->println(request);
 
-  espreadline(100);  // this is the 'echo' from the data
-  espreadline(100);  //Serial.print("1>"); Serial.println(replybuffer); // probably the 'busy s...'
-  espreadline(3000); // Serial.print("2>"); Serial.println(replybuffer); 
+  while (true) {
+    espreadline(3000);  // this is the 'echo' from the data
+    Serial.print(">"); Serial.println(replybuffer); // probably the 'busy s...'
+
+    // LOOK AT ALL THESE POSSIBLE ARBITRARY RESPONSES!!!
+    if (strstr(replybuffer, "wrong syntax")) 
+      continue;
+    else if (strstr(replybuffer, "ERROR")) 
+      continue;
+    else if (strstr(replybuffer, "busy s...")) 
+      continue;
+    else break;
+  }
+  
   if (! strstr(replybuffer, "SEND OK") ) return false;
   
   espreadline(1000);  Serial.print("3>"); Serial.println(replybuffer);
@@ -148,7 +163,7 @@ boolean ESP_GETpage(char *host, char *ip, uint16_t port, char *page) {
     if (s) {
       //Serial.println(replybuffer);
       contentlen = atoi(s+16);
-      Serial.print("clen = "); Serial.println(contentlen);
+      Serial.print(F("C-Len = ")); Serial.println(contentlen);
     }
     s = strstr(replybuffer, "Content-Type: ");
     if (s && contentlen) {
@@ -173,7 +188,7 @@ boolean ESP_GETpage(char *host, char *ip, uint16_t port, char *page) {
  
 void loop()
 {
-  ESP_GETpage(HOST, DST_IP, 80, WEBPAGE);
+  ESP_GETpage(HOST, 80, WEBPAGE);
   
   Serial.println(F("**********REPLY***********"));
   Serial.print(replybuffer);
@@ -189,10 +204,19 @@ void loop()
   
 }
 
+boolean getVersion() {
+  // Get version?
+  getReply("AT+GMR", 250, true); 
+}
+
 boolean espReset() {
   getReply("AT+RST", 1000, true);
   if (! strstr(replybuffer, "OK")) return false;
   delay(2000);
+
+  // turn off echo
+  getReply("ATE0", 250, true);
+  
   return true;
 }
 
@@ -218,28 +242,32 @@ boolean ESPconnectAP(char *s, char *p) {
  
 byte setupWiFi() {
   // reset WiFi module
-  Serial.println("Resetting...");
+  Serial.println(F("Soft resetting..."));
   if (!espReset()) 
     return WIFI_ERROR_RST;
 
   delay(1000);
   
-  Serial.println("Checking for ESP AT");
+  Serial.println(F("Checking for ESP AT response"));
 
   if (!sendCheckReply("AT", "OK"))
     return WIFI_ERROR_AT;
   
-  Serial.print("Connecting to "); Serial.println(SSID);
+  getVersion();
+  Serial.print(F("Firmware Version #")); Serial.println(replybuffer);
+  
+  Serial.print(F("Connecting to ")); Serial.println(SSID);
   if (!ESPconnectAP(SSID, PASS))
     return WIFI_ERROR_SSIDPWD;
  
-  Serial.println("Single Client");
+  Serial.println(F("Single Client Mode"));
   if (!sendCheckReply("AT+CIPMUX=0", "OK"))
         return WIFI_ERROR_SERVER;
  
   return WIFI_ERROR_NONE;
 }  
 
+// NOT IMPLEMENTED YET!
 uint32_t getIP() {
   getReply("AT+CIFSR", 500, true);
 
@@ -292,13 +320,19 @@ uint8_t getReply(char *send, uint16_t timeout, boolean echo) {
   esp->println(send);
   
   // eat first reply sentence (echo)
-  espreadline(timeout);  
+  uint8_t readlen = espreadline(timeout);  
   
-  uint8_t l = espreadline();  
+  //Serial.print("echo? "); Serial.print(readlen); Serial.print(" vs "); Serial.println(strlen(send));
+  
+  if (strncmp(send, replybuffer, readlen) == 0) {
+    // its an echo, read another line!
+    readlen = espreadline();
+  }
+  
   if (echo) {
     Serial.print ("<--- "); Serial.println(replybuffer);
   }
-  return l;
+  return readlen;
 }
 
 boolean sendCheckReply(char *send, char *reply, uint16_t timeout) {
@@ -321,11 +355,13 @@ void debugLoop() {
   Serial.println("========================");
   //serial loop mode for diag
   while(1) {
-    while (Serial.available()) {
+    if (Serial.available()) {
       esp->write(Serial.read());
+      delay(1);
     }
-    while (esp->available()) {
+    if (esp->available()) {
       Serial.write(esp->read());
+      delay(1);
     }
   }
 }
