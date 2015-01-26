@@ -43,7 +43,7 @@ void setup() {
   // by providing a string to ID the tail end of the boot message:
   
   // comment/replace this if you are using something other than v 0.9.2.4!
-  wifi.setBootMarker(F("Version:0.9.2.4]\r\n"));
+  wifi.setBootMarker(F("Version:0.9.2.4]\r\n\r\nready"));
 
   softser.begin(9600); // Soft serial connection to ESP8266
   Serial.begin(57600); while(!Serial); // UART serial debug
