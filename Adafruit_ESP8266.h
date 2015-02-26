@@ -25,7 +25,7 @@
 #define ESP_IPD_TIMEOUT     120000L
 
 typedef const __FlashStringHelper Fstr; // PROGMEM/flash-resident string
-typedef const prog_char           Pchr; // Ditto, kindasorta
+typedef const PROGMEM char        Pchr; // Ditto, kindasorta
 
 #define defaultBootMarker F("ready\r\n")
 
@@ -39,7 +39,8 @@ class Adafruit_ESP8266 : public Print {
             find(Fstr *str = NULL, boolean ipd = false),
             connectToAP(Fstr *ssid, Fstr *pass),
             connectTCP(Fstr *host, int port),
-            requestURL(Fstr *url);
+            requestURL(Fstr *url),
+            requestURL(char* url);
   int       readLine(char *buf, int bufSiz);
   void      closeAP(void),
             closeTCP(void),

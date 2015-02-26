@@ -249,3 +249,22 @@ boolean Adafruit_ESP8266::requestURL(Fstr *url) {
   }
   return false;
 }
+
+// Requests page from currently-open TCP connection.  URL is
+// character string in SRAM.  Returns true if request issued successfully,
+// else false.  Calling function should then handle data returned, may
+// need to parse IPD delimiters (see notes in find() function.
+// (Can call find(F("Unlink"), true) to dump to debug.)
+boolean Adafruit_ESP8266::requestURL(char* url) {
+    print(F("AT+CIPSEND="));
+    println(25 + strlen(url) + strlen_P((Pchr *)host));
+    if(find(F("> "))) { // Wait for prompt
+        print(F("GET ")); // 4
+        print(url);
+        print(F(" HTTP/1.1\r\nHost: ")); // 17
+        print(host);
+        print(F("\r\n\r\n")); // 4
+        return(find()); // Gets 'SEND OK' line
+    }
+    return false;
+}
