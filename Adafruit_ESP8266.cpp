@@ -268,3 +268,8 @@ boolean Adafruit_ESP8266::requestURL(char* url) {
     }
     return false;
 }
+
+boolean Adafruit_ESP8266::command(Fstr *command, Fstr *ack) {
+  print(command);
+  return true;
+}
