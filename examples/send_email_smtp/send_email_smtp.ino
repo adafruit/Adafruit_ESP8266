@@ -121,22 +121,23 @@ void setup() {
 
 void loop() {
 
-    if(!send_flag){ 
-        if(Serial.available()){ 
-            if(Serial.find("send it")){  
+    if(!send_flag){ // check if we expect to send an email
+        if(Serial.available()){  // there is data in the serial, let's see if the users wants to "send it" [the email]
+            if(Serial.find("send it")){  // set the send_flag when the uses types "send it" in the serial monitor.
                 send_flag = true;
             }
         }
     }
 
-    if(send_flag){
-        if(do_next(count)){
-            count++;
+    if(send_flag){ // the send_flat is set, this means we are or need to start sending SMTP commands
+        if(do_next(count)){ // execute the next command
+            count++; // increment the count so that the next command will be executed next time.
         }
         wifi.find();
     }
 }
 
+// do_next executes the SMTP command in the order required.
 boolean do_next(int count)
 {
 
