@@ -269,7 +269,29 @@ boolean Adafruit_ESP8266::requestURL(char* url) {
     return false;
 }
 
-boolean Adafruit_ESP8266::command(Fstr *command, Fstr *ack) {
-  print(command);
-  return true;
+/**
+ * 
+ * 
+ * @details Sends data via CIPSEND. Checks expected response 
+ *          from server was received.
+ * 
+ * @param data The data to send via CIPSEND
+ * @param ack The string to check for in the server response
+ * 
+ * @return boolean True if ack or "SEND OK" was found in server
+ *         response, false otherwise.
+ */
+boolean Adafruit_ESP8266::cipSend(const char* data,Fstr *ack){
+    print(F("AT+CIPSEND="));
+    println(2 + strlen(data)); // data length + <CR><LF>
+    if(find(F("> "))) { // Wait for prompt
+        print(data);
+        print(F("\r\n"));
+        if(ack!=NULL){
+            return(find(ack));
+        }else{
+            return(find()); // Gets 'SEND OK' line
+        }
+    }
+    return false; // No prompt from ESP, the CIPSEND command was not received by the ESP module
 }

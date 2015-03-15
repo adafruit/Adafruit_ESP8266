@@ -1,6 +1,17 @@
+/* 
+--------------------------------------------------------------------------------------------------------------------------
+-- @description a basic SMTP email example. You must use an account which can provide unencrypted authenticated access.
+-- This example was tested with an AOL and Time Warner email accounts. GMail does not offer unecrypted authenticated access.
+-- To obtain your email's SMTP server and port simply Google it e.g. [my email domain] SMTP settings
+-- For example for timewarner you'll get to this page http://www.timewarnercable.com/en/support/faqs/faqs-internet/e-mailacco/incoming-outgoing-server-addresses.html
+-- To Learn more about SMTP email visit:
+-- SMTP Commands Reference - http://www.samlogic.net/articles/smtp-commands-reference.htm
+-- See "SMTP transport example" in this page http://en.wikipedia.org/wiki/Simple_Mail_Transfer_Protocol
+-----------------------------------------------------------------------------------------------------------------------------
+*/
 
 /*------------------------------------------------------------------------
-  Simple ESP8266 test.  Requires SoftwareSerial and an ESP8266 that's been
+  Requires SoftwareSerial and an ESP8266 that's been
   flashed with recent 'AT' firmware operating at 9600 baud.  Only tested
   w/Adafruit-programmed modules: https://www.adafruit.com/product/2282
 
@@ -8,7 +19,7 @@
   Arduino boards) requires a logic-level shifter for TX and RX signals.
   ------------------------------------------------------------------------*/
 
-#include <Adafruit_ESP8266_SMTP.h>
+#include <Adafruit_ESP8266.h>
 #include <SoftwareSerial.h>
 
 #define ESP_RX   3
@@ -18,23 +29,28 @@ SoftwareSerial softser(ESP_RX, ESP_TX);
 
 // Must declare output stream before Adafruit_ESP8266 constructor; can be
 // a SoftwareSerial stream, or Serial/Serial1/etc. for UART.
-Adafruit_ESP8266_SMTP wifi(&softser, &Serial, ESP_RST);
+Adafruit_ESP8266 wifi(&softser, &Serial, ESP_RST);
 // Must call begin() on the stream(s) before using Adafruit_ESP8266 object.
 
-#define ESP_SSID "ssid" // Your network name here
-#define ESP_PASS "pass" // Your network password here
+#define ESP_SSID "networkSSID" // Your network name here
+#define ESP_PASS "networkPassword" // Your network password here
 
-char EMAIL_FROM[] = "";
-char EMAIL_PASSWORD[] =  "";
-char EMAIL_TO[] = "";
-char SUBJECT[]  = "";
-String content = "";
+char EMAIL_FROM[] = "myemail@domain.com";
+char EMAIL_PASSWORD[] =  "mypassword";
+char EMAIL_TO[] = "toemail@domain2.com";
+char SUBJECT[]  = "My ESP8266";
+char EMAIL_CONTENT[] = "Hello from your ESP8266, again.";
 
-#define HOST     "smtp.server.com"     // Host to contact
+// We'll need your EMAIL_FROM and its EMAIL_PASSWORD base64 encoded, you can use https://www.base64encode.org/
+#define EMAIL_FROM_BASE64 "yourEmailBase64Encoded"
+#define EMAIL_PASSWORD_BASE64 "yourEmail'sPasswordBase64Encoded"
 
-#define PORT     587                     // 80 = HTTP default port
+#define HOST     "your.smtpServer.com"     // Find/Google your email provider's SMTP outgoing server name for unencrypted email
+
+#define PORT     587                     // Find/Google your email provider's SMTP outgoing port for unencrypted email
 
 int count = 0;
+bool send_flag = false;
 
 void setup() {
   char buffer[50];
@@ -48,7 +64,7 @@ void setup() {
   softser.begin(9600); // Soft serial connection to ESP8266
   Serial.begin(57600); while(!Serial); // UART serial debug
 
-  Serial.println(F("Adafruit ESP8266 Demo"));
+  Serial.println(F("Adafruit ESP8266 Email"));
 
   // Test if module is ready
   Serial.print(F("Hard reset..."));
@@ -82,14 +98,14 @@ void setup() {
     Serial.print(F("OK\nChecking IP addr..."));
     wifi.println(F("AT+CIFSR"));
     if(wifi.readLine(buffer, sizeof(buffer))) {
-      Serial.println(buffer);
-      wifi.find(); // Discard the 'OK' that follows
+        Serial.println(buffer);
+        wifi.find(); // Discard the 'OK' that follows
 
-      Serial.print(F("Connecting to host..."));
+        Serial.print(F("Connecting to host..."));
       if(wifi.connectTCP(F(HOST), PORT)) {
 
         Serial.print("Connected..");
-        wifi.command(F("AT+CIPMUX=0\r\n"));
+        wifi.println("AT+CIPMUX=0"); // configure for single connection, we should only be connected to one SMTP server
         wifi.find();
         
       } else { // TCP connect failed
@@ -104,9 +120,21 @@ void setup() {
 }
 
 void loop() {
-    if(do_next(count))
-        count++;
-    wifi.find();
+
+    if(!send_flag){ 
+        if(Serial.available()){ 
+            if(Serial.find("send it")){  
+                send_flag = true;
+            }
+        }
+    }
+
+    if(send_flag){
+        if(do_next(count)){
+            count++;
+        }
+        wifi.find();
+    }
 }
 
 boolean do_next(int count)
@@ -114,57 +142,96 @@ boolean do_next(int count)
 
     switch(count){ 
         case 0:
+            Serial.println("Sending Email");
+            // send "HELO ip_address" command. Server will reply with "250" and welcome message
+            return wifi.cipSend("HELO computer.com",F("250")); // ideally an ipaddress should go in place 
+                                                               // of "computer.com" but I think the email providers
+                                                               // check the IP anyways so I just put anything.                                   
+            break;
+    case 1:
+        // send "AUTH LOGIN" command to the server will reply with "334 username" base 64 encoded
+            return wifi.cipSend("AUTH LOGIN",F("334 VXNlcm5hbWU6"));
+            break;
+    case 2:
+        // send username/email base 64 encoded, the server will reply with "334 password" base 64 encoded
+            return wifi.cipSend(EMAIL_FROM_BASE64,F("334 UGFzc3dvcmQ6")); 
+            break;
+    case 3:
+        // send password base 64 encoded, upon successful login the server will reply with 235.
+            return wifi.cipSend(EMAIL_PASSWORD_BASE64,F("235"));
+            break;
+    case 4:{
+        // send "MAIL FROM:<emali_from@domain.com>" command
+            char mailFrom[50] = "MAIL FROM:<"; // If 50 is not long enough change it, do the same for the array in the other cases
+            strcat(mailFrom,EMAIL_FROM);
+            strcat(mailFrom,">");
 
-            return wifi.sendCommand("HELO computer.com",F("250"));
-                
+            return wifi.cipSend(mailFrom,F("250"));
             break;
-        case 1:
-            return wifi.sendCommand("AUTH LOGIN",F("334 VXNlcm5hbWU6"));
+    }
+    case 5:{
+        // send "RCPT TO:<email_to@domain.com>" command
+            char rcptTo[50] = "RCPT TO:<";
+            strcat(rcptTo,EMAIL_TO);
+            strcat(rcptTo,">");
+            return wifi.cipSend(rcptTo,F("250"));  
             break;
-        case 2:
-            return wifi.sendCommand("base64uname",F("334 UGFzc3dvcmQ6")); 
+    }
+    case 6:
+        // Send "DATA"  command, the server will reply with something like "334 end message with \r\n.\r\n."
+            return wifi.cipSend("DATA",F("354"));
             break;
-        case 3:
-            return wifi.sendCommand("base64pass",F("235"));
+    case 7:{
+            // apply "FROM: from_name <from_email@domain.com>" header
+            char from[100] = "FROM: ";
+            strcat(from,EMAIL_FROM);
+            strcat(from," ");
+            strcat(from,"<");
+            strcat(from,EMAIL_FROM);
+            strcat(from,">");
+            return wifi.cipSend(from);  
             break;
-        case 4:
-            return wifi.sendCommand("MAIL FROM:<myemail@domain.com>",F("250"));
+    }
+    case 8:{
+        // apply TO header 
+        char to[100] = "TO: ";
+        strcat(to,EMAIL_TO);
+        strcat(to,"<");
+        strcat(to,EMAIL_TO);
+        strcat(to,">");
+            return wifi.cipSend(to);  
             break;
-        case 5:
-            return wifi.sendCommand("RCPT TO:<toemail@domain2.com>",F("250"));  
+    }
+    case 9:{
+        // apply SUBJECT header
+        char subject[50] = "SUBJECT: ";
+        strcat(subject,SUBJECT);
+            return wifi.cipSend(subject);
             break;
-        case 6:
-            return wifi.sendCommand("DATA",F("354"));
-            break;
-        case 7:
-            return wifi.sendCommand("FROM: esp8266 <myemail@domain.com>");  
-            break;
-        case 8:
-            return wifi.sendCommand("TO: Miguel <toemail@domain2.com>");  
-            break;
-        case 9:
-            return wifi.sendCommand("SUBJECT: The Subject");
-            break;
+    }
         case 10:
-            return wifi.sendCommand("\r\n");   // marks end of header
+            return wifi.cipSend("\r\n");   // marks end of header (SUBJECT, FROM, TO, etc);
             break;
-        case 11:
-            return wifi.sendCommand("Hi,My message is this");
+    case 11:
+            return wifi.cipSend(EMAIL_CONTENT);
             break;
         case 12:
-            return wifi.sendCommand("\r\n.");  // marks end of data
+            return wifi.cipSend("\r\n.");  // marks end of data command
             break;
         case 13:
-            return wifi.sendCommand("QUIT");
+            return wifi.cipSend("QUIT");
             break;
     case 14:
-        wifi.closeAP();
+        // since we close the AP and TCP here you'll have to restart them both if you want to send another email
+            wifi.closeAP();
             wifi.closeTCP();
             return true;
             break;
+        case 15:
+            Serial.println("Done");
+            return true;
+            break;
     default:
-        Serial.println("Done");
-        return true;
             break;
         }
 }

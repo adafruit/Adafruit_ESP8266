@@ -41,7 +41,7 @@ class Adafruit_ESP8266 : public Print {
             connectTCP(Fstr *host, int port),
             requestURL(Fstr *url),
             requestURL(char* url),
-            command(Fstr *command, Fstr *ack = NULL);
+            cipSend(const char* data,Fstr *ack = NULL);
   int       readLine(char *buf, int bufSiz);
   void      closeAP(void),
             closeTCP(void),
