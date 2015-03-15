@@ -1,6 +1,7 @@
 /* 
 --------------------------------------------------------------------------------------------------------------------------
--- @description a basic SMTP email example. You must use an account which can provide unencrypted authenticated access.
+-- @description A sketch for sending email via SMTP. Working Example: https://www.youtube.com/watch?v=n5WZ_BNRvRY 
+-- You must use an account which can provide unencrypted authenticated access.
 -- This example was tested with an AOL and Time Warner email accounts. GMail does not offer unecrypted authenticated access.
 -- To obtain your email's SMTP server and port simply Google it e.g. [my email domain] SMTP settings
 -- For example for timewarner you'll get to this page http://www.timewarnercable.com/en/support/faqs/faqs-internet/e-mailacco/incoming-outgoing-server-addresses.html
