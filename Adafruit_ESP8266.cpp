@@ -269,6 +269,8 @@ boolean Adafruit_ESP8266::requestURL(char* url) {
     return false;
 }
 
+
+
 /**
  * 
  * 
@@ -294,4 +296,48 @@ boolean Adafruit_ESP8266::cipSend(const char* data,Fstr *ack){
         }
     }
     return false; // No prompt from ESP, the CIPSEND command was not received by the ESP module
+}
+
+/**
+ * Function used to send HTTP POST requests
+ * 
+ * @author Miguel (3/23/2015)
+ * 
+ * @param host HTTP host
+ * @param uri host uri
+ * @param data url encoded param=value&param2=value2 string
+ * 
+ * @return boolean true if "SEND OK"
+ */
+boolean Adafruit_ESP8266::httpPost(const char *host, const char* uri, char* data)
+{
+    /*
+    *  POST uri HTTP/1.1\r\n
+    *  Host: host\r\n
+    *  Connection: close\r\n
+    *  Content-Type: application/x-www-form-urlencoded\r\n
+    *  Content-Length: dataLength\r\n
+    *  \r\n
+    *  data
+    */
+	
+	int dataLength = strlen(data);
+	char strDataLength[6]; // can send 0-999 bytes of data
+	sprintf(strDataLength,"%d\r\n",dataLength);
+	char content_length_buffer[25] = "Content-Length: ";
+	strcat(content_length_buffer,strDataLength);
+	
+	char buffer[200] = "POST "; // if your post request is longer than 199 bytes/characters then increase this value
+	strcat(buffer,uri);
+	strcat(buffer," HTTP/1.1\r\n");
+	strcat(buffer,"Host: ");
+	strcat(buffer,host);
+	strcat(buffer,"\r\n");
+	strcat(buffer,"Connection: close\r\n");
+	strcat(buffer,"Content-Type: application/x-www-form-urlencoded\r\n");
+	strcat(buffer,content_length_buffer);
+	strcat(buffer,"\r\n");
+	strcat(buffer,data);
+
+    return cipSend(buffer);
 }
