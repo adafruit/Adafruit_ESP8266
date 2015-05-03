@@ -34,10 +34,11 @@
 #include <Adafruit_ESP8266.h>
 #include <SoftwareSerial.h>
 
-#define ESP_RX   2
-#define ESP_TX   3
-#define ESP_RST  4
-SoftwareSerial softser(ESP_RX, ESP_TX);
+#define ARD_RX_ESP_TX  2
+#define ARD_TX_ESP_RX  3
+#define ESP_RST        4
+SoftwareSerial softser(ARD_RX_ESP_TX, ARD_TX_ESP_RX); // Arduino RX = ESP TX, Arduino TX = ESP RX
+
 
 // Must declare output stream before Adafruit_ESP8266 constructor; can be
 // a SoftwareSerial stream, or Serial/Serial1/etc. for UART.
