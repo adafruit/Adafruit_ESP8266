@@ -4,16 +4,41 @@
   w/Adafruit-programmed modules: https://www.adafruit.com/product/2282
 
   The ESP8266 is a 3.3V device.  Safe operation with 5V devices (most
-  Arduino boards) requires a logic-level shifter for TX and RX signals.
+  Arduino boards) requires a logic-level shifter for TX and RX signals.                                                     
+                                                                  
+    ----------------------
+    |                 SCL|
+    |    Arduino      SDA|
+    |      UNO       AREF|
+    |                 GND|
+    |reserved          13|
+    |IOREF             12|
+    |RESET           ~ 11|
+    |3.3V            ~ 10|                        
+    |5.0V            ~  9|
+    |GND                8|
+    |GND                 |
+    |Vin                7|
+    |                ~  6|
+    |A0              ~  5|                                   \ | /
+    |A1                 4|->---/Level\--/RST WLAN-Module \    \|/ 
+    |A2              ~  3|->---|Shift|--|RX  ESP8266     |     |  
+    |A3                 2|<----\5-3.3/--\TX              /-----.  
+    |A4 SDA          TX 1|   
+    |A5 SCL  ICSP    RX 0|   
+    ----------------------   
+                                                                  
   ------------------------------------------------------------------------*/
+
 
 #include <Adafruit_ESP8266.h>
 #include <SoftwareSerial.h>
 
-#define ESP_RX   2
-#define ESP_TX   3
-#define ESP_RST  4
-SoftwareSerial softser(ESP_RX, ESP_TX);
+#define ARD_RX_ESP_TX  2
+#define ARD_TX_ESP_RX  3
+#define ESP_RST        4
+SoftwareSerial softser(ARD_RX_ESP_TX, ARD_TX_ESP_RX); // Arduino RX = ESP TX, Arduino TX = ESP RX
+
 
 // Must declare output stream before Adafruit_ESP8266 constructor; can be
 // a SoftwareSerial stream, or Serial/Serial1/etc. for UART.
