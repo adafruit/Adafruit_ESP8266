@@ -255,7 +255,7 @@ boolean Adafruit_ESP8266::requestURL(Fstr *url) {
 // else false.  Calling function should then handle data returned, may
 // need to parse IPD delimiters (see notes in find() function.
 // (Can call find(F("Unlink"), true) to dump to debug.)
-boolean Adafruit_ESP8266::requestURL(char* url) {
+boolean Adafruit_ESP8266::requestURL(const char* url) {
     print(F("AT+CIPSEND="));
     println(25 + strlen(url) + strlen_P((Pchr *)host));
     if(find(F("> "))) { // Wait for prompt
