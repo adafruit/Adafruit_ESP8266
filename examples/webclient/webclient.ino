@@ -35,8 +35,8 @@ void setup() {
   // Flash LED on power-up
   pinMode(LED_PIN, OUTPUT);
   for(uint8_t i=0; i<3; i++) {
-    digitalWrite(13, HIGH); delay(50);
-    digitalWrite(13, LOW);  delay(100);
+    digitalWrite(LED_PIN, HIGH); delay(50);
+    digitalWrite(LED_PIN, LOW);  delay(100);
   }
 
   // This might work with other firmware versions (no guarantees)
