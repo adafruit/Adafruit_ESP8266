@@ -23,7 +23,7 @@ Adafruit_ESP8266 wifi(&softser, &Serial, ESP_RST);
 #define ESP_SSID "SSIDNAME" // Your network name here
 #define ESP_PASS "PASSWORD" // Your network password here
 
-#define HOST     "www.adafruit.com"     // Host to contact
+#define HOST     "wifitest.adafruit.com"     // Host to contact
 #define PAGE     "/testwifi/index.html" // Web page to request
 #define PORT     80                     // 80 = HTTP default port
 
