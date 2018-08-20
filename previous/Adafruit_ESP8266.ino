@@ -6,8 +6,8 @@
 #define SSID "SSIDNAME"      //your wifi ssid here
 #define PASS "PASSWORD"   //your wifi key here
 
-//  www.adafruit.com/testwifi/index.html
-#define HOST "www.adafruit.com" 
+//  wifitest.adafruit.com/testwifi/index.html
+#define HOST "wifitest.adafruit.com" 
 #define WEBPAGE "/testwifi/index.html"
 #define PORT  "80"
 
