@@ -40,7 +40,7 @@ class Adafruit_ESP8266 : public Print {
             connectToAP(Fstr *ssid, Fstr *pass),
             connectTCP(Fstr *host, int port),
             requestURL(Fstr *url),
-            requestURL(char* url);
+            requestURL(const char* url);
   int       readLine(char *buf, int bufSiz);
   void      closeAP(void),
             closeTCP(void),
