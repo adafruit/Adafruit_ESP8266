@@ -28,7 +28,7 @@
 /**************************************************************************/
 Adafruit_ESP8266::Adafruit_ESP8266(Stream *serial_stream, Stream *debug_stream,
                                    int8_t resetpin)
-    : stream(s), debug(d), reset_pin(r), host(NULL), writing(false) {
+    : stream(serial_stream), debug(debug_stream), reset_pin(resetpin), host(NULL), writing(false) {
   setTimeouts();
 };
 
