@@ -65,7 +65,7 @@ void Adafruit_ESP8266::setTimeouts(uint32_t rcv, uint32_t rst, uint32_t con,
 */
 /**************************************************************************/
 void Adafruit_ESP8266::setBootMarker(Fstr *str) {
-  bootMarker = s ? s : defaultBootMarker;
+  bootMarker = str ? str : defaultBootMarker;
 }
 
 /**************************************************************************/
@@ -315,12 +315,12 @@ void Adafruit_ESP8266::closeAP(void) {
 boolean Adafruit_ESP8266::connectTCP(Fstr *hoststr, int port) {
 
   print(F("AT+CIPSTART=\"TCP\",\""));
-  print(h);
+  print(hoststr);
   print(F("\","));
   println(port);
 
   if (find(F("Linked"))) {
-    host = h;
+    host = hoststr;
     return true;
   }
   return false;
