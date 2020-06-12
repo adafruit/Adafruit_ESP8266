@@ -87,16 +87,16 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a551739d7b52af587e4a3f6de12f7edce"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a551739d7b52af587e4a3f6de12f7edce">softReset</a> (void)</td></tr>
 <tr class="memdesc:a551739d7b52af587e4a3f6de12f7edce"><td class="mdescLeft">&#160;</td><td class="mdescRight">Software reset.  <a href="#a551739d7b52af587e4a3f6de12f7edce">More...</a><br /></td></tr>
 <tr class="separator:a551739d7b52af587e4a3f6de12f7edce"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8c6cc69e306adaa426f5b41e9d17e2e7"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a8c6cc69e306adaa426f5b41e9d17e2e7">find</a> (Fstr *str=NULL, boolean ipd=false)</td></tr>
+<tr class="memitem:a8c6cc69e306adaa426f5b41e9d17e2e7"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a8c6cc69e306adaa426f5b41e9d17e2e7">find</a> (<a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *str=NULL, boolean ipd=false)</td></tr>
 <tr class="memdesc:a8c6cc69e306adaa426f5b41e9d17e2e7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Equivalent to Arduino Stream <a class="el" href="class_adafruit___e_s_p8266.html#a8c6cc69e306adaa426f5b41e9d17e2e7" title="Equivalent to Arduino Stream find() function, but with search string in flash/PROGMEM rather than RAM...">find()</a> function, but with search string in flash/PROGMEM rather than RAM-resident. Can optionally pass NULL (or no argument) to read/purge the OK+CR/LF returned by most AT commands. The ipd flag indicates this call follows a CIPSEND request and might be broken into multiple sections with +IPD delimiters, which must be parsed and handled (as the search string may cross these delimiters and/or contain \r or \n itself).  <a href="#a8c6cc69e306adaa426f5b41e9d17e2e7">More...</a><br /></td></tr>
 <tr class="separator:a8c6cc69e306adaa426f5b41e9d17e2e7"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ab075e2482a523f40672aab1a07ab4321"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#ab075e2482a523f40672aab1a07ab4321">connectToAP</a> (Fstr *ssid, Fstr *pass)</td></tr>
+<tr class="memitem:ab075e2482a523f40672aab1a07ab4321"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#ab075e2482a523f40672aab1a07ab4321">connectToAP</a> (<a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *ssid, <a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *pass)</td></tr>
 <tr class="memdesc:ab075e2482a523f40672aab1a07ab4321"><td class="mdescLeft">&#160;</td><td class="mdescRight">Connect to WiFi access point. SSID and password are flash-resident strings. May take several seconds to execute, this is normal.  <a href="#ab075e2482a523f40672aab1a07ab4321">More...</a><br /></td></tr>
 <tr class="separator:ab075e2482a523f40672aab1a07ab4321"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a26a6810ab200ab92b9d33873e729c711"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a26a6810ab200ab92b9d33873e729c711">connectTCP</a> (Fstr *host, int port)</td></tr>
+<tr class="memitem:a26a6810ab200ab92b9d33873e729c711"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a26a6810ab200ab92b9d33873e729c711">connectTCP</a> (<a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *host, int port)</td></tr>
 <tr class="memdesc:a26a6810ab200ab92b9d33873e729c711"><td class="mdescLeft">&#160;</td><td class="mdescRight">Open TCP connection. Hostname is flash-resident string.  <a href="#a26a6810ab200ab92b9d33873e729c711">More...</a><br /></td></tr>
 <tr class="separator:a26a6810ab200ab92b9d33873e729c711"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:afdaaa69572d1da3021360125cae915a7"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#afdaaa69572d1da3021360125cae915a7">requestURL</a> (Fstr *url)</td></tr>
+<tr class="memitem:afdaaa69572d1da3021360125cae915a7"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#afdaaa69572d1da3021360125cae915a7">requestURL</a> (<a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *url)</td></tr>
 <tr class="memdesc:afdaaa69572d1da3021360125cae915a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Requests page from currently-open TCP connection. URL is flash-resident string.  <a href="#afdaaa69572d1da3021360125cae915a7">More...</a><br /></td></tr>
 <tr class="separator:afdaaa69572d1da3021360125cae915a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac7c279f23580b6b4cf949949bfe3c04b"><td class="memItemLeft" align="right" valign="top">boolean&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#ac7c279f23580b6b4cf949949bfe3c04b">requestURL</a> (char *url)</td></tr>
@@ -117,10 +117,10 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#ac61696fe51dbcef4e81e94181312c718">debugLoop</a> (void)</td></tr>
 <tr class="memdesc:ac61696fe51dbcef4e81e94181312c718"><td class="mdescLeft">&#160;</td><td class="mdescRight">For interactive debugging...shuttle data between Serial Console &lt;-&gt; WiFi. <br /></td></tr>
 <tr class="separator:ac61696fe51dbcef4e81e94181312c718"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a34ff8851a50115982dd0f73abde0e8da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a34ff8851a50115982dd0f73abde0e8da">setTimeouts</a> (uint32_t rcv=ESP_RECEIVE_TIMEOUT, uint32_t rst=ESP_RESET_TIMEOUT, uint32_t con=ESP_CONNECT_TIMEOUT, uint32_t ipd=ESP_IPD_TIMEOUT)</td></tr>
+<tr class="memitem:a34ff8851a50115982dd0f73abde0e8da"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#a34ff8851a50115982dd0f73abde0e8da">setTimeouts</a> (uint32_t rcv=<a class="el" href="_adafruit___e_s_p8266_8h.html#abcb5772cbbc768b582b34d1f523de84e">ESP_RECEIVE_TIMEOUT</a>, uint32_t rst=<a class="el" href="_adafruit___e_s_p8266_8h.html#a253af3f5fdd8a21877df314b07007231">ESP_RESET_TIMEOUT</a>, uint32_t con=<a class="el" href="_adafruit___e_s_p8266_8h.html#ab212867bd9a898bfdcca42ab87b98d6d">ESP_CONNECT_TIMEOUT</a>, uint32_t ipd=<a class="el" href="_adafruit___e_s_p8266_8h.html#a80e7c744eca6db58c18d7ee057e7387d">ESP_IPD_TIMEOUT</a>)</td></tr>
 <tr class="memdesc:a34ff8851a50115982dd0f73abde0e8da"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override various timings.Passing 0 for an item keeps current setting.  <a href="#a34ff8851a50115982dd0f73abde0e8da">More...</a><br /></td></tr>
 <tr class="separator:a34ff8851a50115982dd0f73abde0e8da"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae896da9e1f9796e8843ea52d169e24a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#ae896da9e1f9796e8843ea52d169e24a7">setBootMarker</a> (Fstr *s=NULL)</td></tr>
+<tr class="memitem:ae896da9e1f9796e8843ea52d169e24a7"><td class="memItemLeft" align="right" valign="top">void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_adafruit___e_s_p8266.html#ae896da9e1f9796e8843ea52d169e24a7">setBootMarker</a> (<a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *s=NULL)</td></tr>
 <tr class="memdesc:ae896da9e1f9796e8843ea52d169e24a7"><td class="mdescLeft">&#160;</td><td class="mdescRight">Override boot marker string, or pass NULL to restore default.  <a href="#ae896da9e1f9796e8843ea52d169e24a7">More...</a><br /></td></tr>
 <tr class="separator:ae896da9e1f9796e8843ea52d169e24a7"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -223,7 +223,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">boolean Adafruit_ESP8266::find </td>
           <td>(</td>
-          <td class="paramtype">Fstr *&#160;</td>
+          <td class="paramtype"><a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *&#160;</td>
           <td class="paramname"><em>str</em> = <code>NULL</code>, </td>
         </tr>
         <tr>
@@ -261,13 +261,13 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">boolean Adafruit_ESP8266::connectToAP </td>
           <td>(</td>
-          <td class="paramtype">Fstr *&#160;</td>
+          <td class="paramtype"><a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *&#160;</td>
           <td class="paramname"><em>ssid</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Fstr *&#160;</td>
+          <td class="paramtype"><a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *&#160;</td>
           <td class="paramname"><em>pass</em>&#160;</td>
         </tr>
         <tr>
@@ -299,7 +299,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">boolean Adafruit_ESP8266::connectTCP </td>
           <td>(</td>
-          <td class="paramtype">Fstr *&#160;</td>
+          <td class="paramtype"><a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *&#160;</td>
           <td class="paramname"><em>hoststr</em>, </td>
         </tr>
         <tr>
@@ -337,7 +337,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">boolean Adafruit_ESP8266::requestURL </td>
           <td>(</td>
-          <td class="paramtype">Fstr *&#160;</td>
+          <td class="paramtype"><a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *&#160;</td>
           <td class="paramname"><em>url</em></td><td>)</td>
           <td></td>
         </tr>
@@ -430,25 +430,25 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
           <td class="memname">void Adafruit_ESP8266::setTimeouts </td>
           <td>(</td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>rcv</em> = <code>ESP_RECEIVE_TIMEOUT</code>, </td>
+          <td class="paramname"><em>rcv</em> = <code><a class="el" href="_adafruit___e_s_p8266_8h.html#abcb5772cbbc768b582b34d1f523de84e">ESP_RECEIVE_TIMEOUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>rst</em> = <code>ESP_RESET_TIMEOUT</code>, </td>
+          <td class="paramname"><em>rst</em> = <code><a class="el" href="_adafruit___e_s_p8266_8h.html#a253af3f5fdd8a21877df314b07007231">ESP_RESET_TIMEOUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>con</em> = <code>ESP_CONNECT_TIMEOUT</code>, </td>
+          <td class="paramname"><em>con</em> = <code><a class="el" href="_adafruit___e_s_p8266_8h.html#ab212867bd9a898bfdcca42ab87b98d6d">ESP_CONNECT_TIMEOUT</a></code>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
           <td class="paramtype">uint32_t&#160;</td>
-          <td class="paramname"><em>ipd</em> = <code>ESP_IPD_TIMEOUT</code>&#160;</td>
+          <td class="paramname"><em>ipd</em> = <code><a class="el" href="_adafruit___e_s_p8266_8h.html#a80e7c744eca6db58c18d7ee057e7387d">ESP_IPD_TIMEOUT</a></code>&#160;</td>
         </tr>
         <tr>
           <td></td>
@@ -480,7 +480,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
         <tr>
           <td class="memname">void Adafruit_ESP8266::setBootMarker </td>
           <td>(</td>
-          <td class="paramtype">Fstr *&#160;</td>
+          <td class="paramtype"><a class="el" href="_adafruit___e_s_p8266_8h.html#a2b3b0bb5c0dbec726b96db10cf10ae8d">Fstr</a> *&#160;</td>
           <td class="paramname"><em>str</em> = <code>NULL</code></td><td>)</td>
           <td></td>
         </tr>
@@ -499,7 +499,7 @@ void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="clas
 </div>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li><a class="el" href="_adafruit___e_s_p8266_8h_source.html">Adafruit_ESP8266.h</a></li>
-<li>Adafruit_ESP8266.cpp</li>
+<li><a class="el" href="_adafruit___e_s_p8266_8cpp.html">Adafruit_ESP8266.cpp</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->
