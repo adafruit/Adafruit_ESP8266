@@ -1,33 +1,21 @@
-/*------------------------------------------------------------------------
-  An Arduino library for the ESP8266 WiFi-serial bridge
-
-  https://www.adafruit.com/product/2282
-
-  The ESP8266 is a 3.3V device.  Safe operation with 5V devices (most
-  Arduino boards) requires a logic-level shifter for TX and RX signals.
-
-  Adafruit invests time and resources providing this open source code,
-  please support Adafruit and open-source hardware by purchasing
-  products from Adafruit!
-
-  Written by Limor Fried and Phil Burgess for Adafruit Industries.
-  MIT license, all text above must be included in any redistribution.
-  ------------------------------------------------------------------------*/
+/*!
+ * @file Adafruit_ESP8266.h
+ */
 
 #ifndef _ADAFRUIT_ESP8266_H_
 #define _ADAFRUIT_ESP8266_H_
 
 #include <Arduino.h>
 
-#define ESP_RECEIVE_TIMEOUT 1000L
-#define ESP_RESET_TIMEOUT 5000L
-#define ESP_CONNECT_TIMEOUT 15000L
-#define ESP_IPD_TIMEOUT 120000L
+#define ESP_RECEIVE_TIMEOUT 1000L  //!< Receive timeout for ESP8266
+#define ESP_RESET_TIMEOUT 5000L    //!< Reset timeout for ESP8266
+#define ESP_CONNECT_TIMEOUT 15000L //!< Connection timeout for ESP8266
+#define ESP_IPD_TIMEOUT 120000L    //!< Receive network data timeout for ESP8266
 
-typedef const __FlashStringHelper Fstr; // PROGMEM/flash-resident string
-typedef const PROGMEM char Pchr;        // Ditto, kindasorta
+typedef const __FlashStringHelper Fstr; //!< PROGMEM/flash-resident string
+typedef const PROGMEM char Pchr;        //!< Ditto, kindasorta
 
-#define defaultBootMarker F("ready\r\n")
+#define defaultBootMarker F("ready\r\n") //!< Default ESP8266 boot marker string
 
 /*! Subclassing Print makes debugging easier -- output en route to WiFi module
  * can be duplicated on a second stream (e.g. Serial). !*/
